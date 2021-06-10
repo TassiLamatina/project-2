@@ -4,8 +4,9 @@ const axios = require('axios')
 require('dotenv').config() 
 const layouts = require('express-ejs-layouts')
 let methodOverride = require('method-override');
-const bbyController = require('./controller/bestbuy.ejs')
-axios.get(``)
+const router = express.Router();
+const controller = require('./controller/bbyProducts.js')
+
 
 // define API key
 const BESTBUYAPI = process.env.BESTBUYAPI
@@ -14,7 +15,7 @@ const BESTBUYAPI = process.env.BESTBUYAPI
 const app = express()
 app.set('view engine', 'ejs')
 app.use(layouts) // use ejs layouts
-app.use('/', bbyController)
+app.use('/', router);
 app.use(express.urlencoded({ extended: false }))
 app.use(express.static('static'))
 app.use(methodOverride('_method'))
@@ -24,6 +25,8 @@ app.get('/', (req, res) => {
   res.render('home.ejs')
 })
 
+// // Imports all routes from the controller routes file
+// app.use('/', require('./bbyProducts.js'));
 
 //open up port for the app to listen on + define port
 app.listen(process.env.PORT || 3000, () => {

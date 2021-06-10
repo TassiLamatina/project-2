@@ -7,9 +7,26 @@
 </form>
 
 <!-- search form  -->
+
 <!-- submit button -->
 
 <!-- table showing thumbnail left hand side -->
+<div class="container">
+    <h1 class="text-center"> Search Results: </h1> 
+  
+    <% product.forEach(function(productName) { %>
+      <div class="well">
+        <h2><%= product.name %></h2>
+        <form method="POST" action="/products">
+          <input hidden type="text" name="name" value="<%= product.name %>">
+          <button class="btn btn-primary" type="submit">Add To Cart</button>
+        </form>
+      </div>
+    <% }); %>
+  </div>
+  <form>
+    <button action="/cart" type="submit">Cart</button>
+  </form>
 <!-- right hand side showing in order: -->
 <!-- title -->
 <!-- regularPrice/salePrice  -->

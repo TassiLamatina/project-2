@@ -1,7 +1,25 @@
 <!-- table showing: -->
+<div class="container">
 
+<!-- get items from designated user and display in table. -->
+<% product.forEach(function(productName) { %>
 <!-- right hand side mediumImage -->
 
 <!-- right hand side name -->
 
 <!-- bottom left outside table buy it button that sends to addToCartUrl -->
+
+  
+    <% product.forEach(function(productName) { %>
+      <div class="well">
+        <h2><%= product.name %></h2>
+        <form method="GET" action="/products">
+          <input hidden type="text" name="name" value="<%= product.name %>">
+          <button class="btn btn-primary" type="submit">Add To Cart</button>
+        </form>
+      </div>
+    <% }); %>
+  </div>
+  <form>
+    <button action="/cart" type="submit">Cart</button>
+  </form>
