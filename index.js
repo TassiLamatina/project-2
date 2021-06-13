@@ -29,49 +29,69 @@ app.get('/', (req, res) => {
 
 // GET ROUTE FOR LOGIN PAGE
 app.get('/login', (req, res) => {
-  res.send('Hello World!')
+  res.render('login.ejs')
 })
 
 // POST ROUTE FOR LOGIN PAGE
 app.post('/login', (req, res) => {
-  res.send('Hello World!')
+  res.render('login.ejs')
 })
 
 
 // GET ROUTE FOR /PRODUCTS PAGE
 app.get('/products', (req, res) => {
-  res.send('Hello World!')
+  res.render('products.ejs')
 })
 
 // POST ROUTE FOR /PRODUCTS PAGE
 app.post('/products', (req, res) => {
-  res.send('Got a POST request')
+  res.render('products.ejs')
 })
 
 // GET ROUTE FOR /PRODUCTS/:ID
 app.get('/products/:id', (req, res) => {
-  res.send('products.ejs');
+  res.render('products.ejs');
 });
 
 //POST ROUTE FOR /PRODUCTS/:ID
 app.post('/products/:id', (req, res) => {
-  res.send('products.ejs');
+  res.render('products.ejs');
 });
 
 // GET ROUTE FOR /CART
 app.get('/cart', function (req, res) {
-  res.send('Hello World!')
+  res.render('cart.ejs')
 })
 
 // DELETE ROUTE FOR /CART
 app.delete('/cart', function (req, res) {
-  res.send('Hello World!')
+  res.render('cart.ejs')
 })
 
 
 // GET ROUTE FOR /ABOUTME
-app.get('/aboutme', function (req, res) {
-  res.send('Hello World!')
+app.get('/about', function (req, res) {
+  res.render('aboutMe.ejs')
+})
+
+// GET ROUTE FOR /PRODUCTDETAILS
+app.get('/details/:id', function (req, res) {
+  res.render('productDetails.ejs')
+})
+
+// POST ROUTE FOR /PRODUCTDETAILS 
+app.post('/details/:id', function (req, res) {
+  res.render('productDetails.ejs')
+})
+
+// GET ROUTE FOR /JOIN
+app.get('/join', function (req, res) {
+  res.render('joinUs.ejs')
+})
+
+// POST ROUTE FOR /JOIN
+app.post('/join', function (req, res) {
+  res.render('joinUs.ejs')
 })
 
 
