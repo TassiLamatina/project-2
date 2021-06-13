@@ -40,22 +40,28 @@ app.post('/login', (req, res) => {
 
 // GET ROUTE FOR /PRODUCTS PAGE
 app.get('/products', (req, res) => {
-  res.render('products.ejs')
+  res.render('./products/products.ejs')
 })
 
 // POST ROUTE FOR /PRODUCTS PAGE
 app.post('/products', (req, res) => {
-  res.render('products.ejs')
+  res.render('./products/products.ejs')
 })
 
 // GET ROUTE FOR /PRODUCTS/:ID
 app.get('/products/:id', (req, res) => {
-  res.render('products.ejs');
+  res.render('./products/products.ejs');
 });
 
 //POST ROUTE FOR /PRODUCTS/:ID
 app.post('/products/:id', (req, res) => {
-  res.render('products.ejs');
+  axios.get(`https://api.bestbuy.com/v1/products/8880044.json?apiKey=${BESTBUYAPI}`)
+        .then((resFromAPI) =>{
+            console.log(resFromAPI.data.Title)
+            res.send(resFromAPI.data.Title)
+        })
+        .catch(err => {console.log(err)})
+  res.render('./products/products.ejs');
 });
 
 // GET ROUTE FOR /CART

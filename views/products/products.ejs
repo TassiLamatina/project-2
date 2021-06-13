@@ -1,8 +1,3 @@
-<!-- <% let capitalize = string => { %>
-    <% let lowerCase = string.slice(1); %>
-    <% return string.charAt(0).toUpperCase() + lowerCase; %>
-    <% } %> -->
-
 <h1>The Best Current Deals At Best Buy:</h1>
 <p>Type name of product below:</p>
 <form action="/results" method="GET">
@@ -11,27 +6,19 @@
 <input type="submit" value="Enter">
 </form>
 
-<!-- search form  -->
 
-<!-- submit button -->
 
-<!-- table showing thumbnail left hand side -->
-<div class="container">
-    <h1 class="text-center"> Search Results: </h1> 
-  
-    <% product.forEach(function(productName) { %>
-      <div class="well">
-        <h2><%= product.name %></h2>
-        <form method="POST" action="/products">
-          <input hidden type="text" name="name" value="<%= product.name %>">
-          <button class="btn btn-primary" type="submit">Add To Cart</button>
-        </form>
-      </div>
-    <% }); %>
-  </div>
-  <form>
-    <button action="/cart" type="submit">Cart</button>
+<div class="well">
+  <h2>product name is gonna go here with squiddy</h2>
+  <form method="POST" action="/products">
+    <input hidden type="text" name="name" value="product name here">
+    <button class="btn btn-primary" type="submit">Add To Cart</button>
   </form>
+</div>
+</div>
+<form>
+  <button action="/cart" type="submit">Go To Cart</button>
+</form>
 <!-- right hand side showing in order: -->
 <!-- title -->
 <!-- regularPrice/salePrice  -->
