@@ -44,24 +44,26 @@ app.get('/products', (req, res) => {
 })
 
 // POST ROUTE FOR /PRODUCTS PAGE
-app.post('/products', (req, res) => {
-  res.render('./products/products.ejs')
-})
+// app.post('/products', (req, res) => {
+//   res.render('./products/products.ejs')
+// })
 
 // GET ROUTE FOR /PRODUCTS/:ID
-app.get('/products/:id', (req, res) => {
-  res.render('./products/products.ejs');
-});
+// app.get('/products/:id', (req, res) => {
+//   res.render('./products/products.ejs');
+// });
 
 //POST ROUTE FOR /PRODUCTS/:ID
-app.post('/products/:id', (req, res) => {
-  axios.get(`https://api.bestbuy.com/v1/products/8880044.json?apiKey=${BESTBUYAPI}`)
-        .then((resFromAPI) =>{
-            console.log(resFromAPI.data.Title)
-            res.send(resFromAPI.data.Title)
+app.post('/products', (req, res) => {
+  // e.preventDefault()
+  let searchQuery = req.body.name
+  axios.get(`"https://api.bestbuy.com/v1/products(search=${ searchQuery })?format=json&show=sku,name,salePrice&apiKey=${BESTBUYAPI}`)
+        .then((resFromAPI) =>{ console.log(searchQuery)
+            console.log(resFromAPI)
+            res.send("hello world")
         })
         .catch(err => {console.log(err)})
-  res.render('./products/products.ejs');
+  // res.render('./products/products.ejs');
 });
 
 // GET ROUTE FOR /CART
