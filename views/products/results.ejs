@@ -1,0 +1,37 @@
+
+<h1>The Best Current Deals At Best Buy:</h1>
+<p>Type name of product below:</p>
+<form action="/products" method="GET">
+    <label for="product">Product name goes here.</label></br>
+    <input type="text" name="name" id="productName">
+<input type="submit" value="Enter">
+</form>
+
+  <ul id="req.query.name">
+    <% products.forEach(product => { %>
+      <div class="well">
+        <h2> <%= product.name %> </h2>
+        <form method="POST" action="/results">
+          <input hidden type="text" name="name" value="<%=product.name %> ">
+          <button action="/cart" method="POST" class="btn btn-primary" type="submit">Add To Cart</button>
+        </form>
+      </div>
+      </div>
+      <form>
+        <button action="/cart" type="submit">Go To Cart</button>
+      </form>
+
+        <li>
+         <%= product.name %>
+        </li>
+        <img src="<%= product.thumbnailImage %>">
+        <h4>regular price:<%= product.regularPrice %> </h4>
+        <h4>sale price:<%= product.salePrice %> </h4>
+        <h4>percent savings:<%= product.percentSavings %> </h4>
+
+        <p> <%= product.description %> </p>
+       
+        
+
+            <% }) %>
+</ul>

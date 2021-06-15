@@ -7,6 +7,7 @@ let methodOverride = require('method-override');
 const router = express.Router();
 const controller = require('./controller/bbyProducts.js')
 const rowdy = require('rowdy-logger')
+const db = require('./models')
 
 
 // define API key
@@ -19,7 +20,7 @@ app.set('view engine', 'ejs')
 app.use(layouts) // use ejs layouts
 app.use('/', router);
 app.use(express.urlencoded({ extended: false }))
-app.use(express.static('static'))
+app.use(express.static('public'))
 app.use(methodOverride('_method'))
 
 // GET ROUTE FOR "/" HOME PAGE displays main greeting and login button
@@ -40,31 +41,31 @@ app.post('/login', (req, res) => {
 
 // GET ROUTE FOR /PRODUCTS PAGE
 app.get('/products', (req, res) => {
-  res.render('./products/products.ejs')
-})
+  axios.get(`https://api.bestbuy.com/v1/products(search=${ req.query.name })?format=json&show=name,thumbnailImage,regularPrice,salePrice,description,customerTopRated,mediumImage,addToCartUrl,longDescription,color,condition,largeImage,modelNumber,percentSavings&apiKey=${BESTBUYAPI}`)
+        .then((resFromAPI) =>{ console.log(req.query.name)
+            console.log(resFromAPI.data)
+          const products = resFromAPI.data.products.filter( (product) =>{
+            const savings = parseFloat(product.percentSavings)
+            return savings > 40
+          })
+            res.render('./products/results.ejs', {products: products})
 
-// POST ROUTE FOR /PRODUCTS PAGE
-// app.post('/products', (req, res) => {
-//   res.render('./products/products.ejs')
-// })
-
-// GET ROUTE FOR /PRODUCTS/:ID
-// app.get('/products/:id', (req, res) => {
-//   res.render('./products/products.ejs');
-// });
-
-//POST ROUTE FOR /PRODUCTS/:ID
-app.post('/products', (req, res) => {
-  // e.preventDefault()
-  let searchQuery = req.body.name
-  axios.get(`"https://api.bestbuy.com/v1/products(search=${ searchQuery })?format=json&show=sku,name,salePrice&apiKey=${BESTBUYAPI}`)
-        .then((resFromAPI) =>{ console.log(searchQuery)
-            console.log(resFromAPI)
-            res.send("hello world")
         })
         .catch(err => {console.log(err)})
-  // res.render('./products/products.ejs');
+  
 });
+ 
+
+// GET ROUTE FOR /results
+app.get('/results', (req, res) => {
+  res.render('./products/results.ejs');
+});
+
+//POST ROUTE FOR /PRODUCTS/:ID
+// app.post('/products', (req, res) => {
+//   // e.preventDefault()
+//   let searchQuery = req.query.name
+// })
 
 // GET ROUTE FOR /CART
 app.get('/cart', function (req, res) {
@@ -99,9 +100,15 @@ app.get('/join', function (req, res) {
 
 // POST ROUTE FOR /JOIN
 app.post('/join', function (req, res) {
-  res.render('joinUs.ejs')
+  db.user.findOrCreate({
+    where: { userName: req.body.userName },
+    defaults: {
+        userName: req.body.userName,
+        password: req.body.password
+    }
 })
-
+  res.redirect('/products')
+})
 
 
 // // Imports all routes from the controller routes file

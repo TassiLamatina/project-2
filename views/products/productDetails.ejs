@@ -1,11 +1,16 @@
 <!-- page displaying clicked product -->
 
 <!-- right hand side -->
+<h1> <%= product.name %> Details</h1>
 <!-- product name and model inline -->
+<h5> <%= product.name %> <% product.modelNumber %> </h5>
 <!-- largeImage -->
+<img src="<%= product.largeImage %>">
 <!-- description -->
-
+<p> <%= product.longDescription %> </p>
 <!-- left hand side -->
 <!-- salePrice -->
+<h4><%= product.salePrice %></h4>
 <!-- regularPrice -->
+<h4><%= product.regularPrice %></h4>
 <!-- addToCartList -->
