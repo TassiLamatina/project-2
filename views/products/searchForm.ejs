@@ -3,6 +3,7 @@
 <form action="/products" method="GET">
     <label for="product">Product name goes here.</label></br>
     <input type="text" name="name" id="productName">
+    <input type="hidden" value="<%= user %>" name="user">
 <input type="submit" value="Enter">
 </form>
 

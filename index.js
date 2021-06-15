@@ -13,6 +13,7 @@ const db = require('./models')
 // define API key
 const BESTBUYAPI = process.env.BESTBUYAPI
 
+
 // declare apps
 const app = express()
 const rowdyResults = rowdy.begin(app)
@@ -23,24 +24,37 @@ app.use(express.urlencoded({ extended: false }))
 app.use(express.static('public'))
 app.use(methodOverride('_method'))
 
+
 // GET ROUTE FOR "/" HOME PAGE displays main greeting and login button
 app.get('/', (req, res) => {
   res.render('home.ejs')
 })
 
-// POST ROUTE FOR LOGIN PAGE
-app.post('/login', (req, res) => {
-  let currentUser = req.body.userName
-  
-  res.render('login.ejs', { userName: currentUser })
-})
 
-// GET ROUTE FOR LOGIN PAGE
-app.get('/login', (req, res) => {
-  res.render('login.ejs')
+// GET ROUTE FOR /JOIN
+app.get('/join', function (req, res) {
+  res.render('joinUs.ejs')
 })
 
 
+// POST ROUTE FOR /JOIN
+app.post('/join', function (req, res) {
+  db.user.findOrCreate({
+    where: { userName: req.body.userName },
+    defaults: {
+        userName: req.body.userName,
+        password: req.body.password
+    }
+ }) .then ( ([user, created])=> {
+  res.redirect(`/search?user=${user.userName}`)
+ })
+})
+
+
+// get /search
+app.get('/search', (req, res) => {
+  res.render('products/searchForm.ejs', {user:req.query.user})
+})
 
 
 // GET ROUTE FOR /PRODUCTS PAGE
@@ -52,8 +66,6 @@ db.user.findOne({
     userName: currentUser
   } 
 }) .then(user => {
-
-
   axios.get(`https://api.bestbuy.com/v1/products(search=${ req.query.name })?format=json&show=name,thumbnailImage,regularPrice,salePrice,description,customerTopRated,mediumImage,addToCartUrl,longDescription,color,condition,largeImage,modelNumber,percentSavings&apiKey=${BESTBUYAPI}`)
         .then((resFromAPI) =>{ 
         // console.log(req.query.name)
@@ -79,30 +91,42 @@ app.get('/results', (req, res) => {
 
 // GET ROUTE FOR /CART
 app.get('/cart', function (req, res) {
-  res.render('cart')
+  let currentUser = req.query.user
+console.log(req.query, "🤷🏻‍♀️🤷🏻‍♀️🤷🏻‍♀️🤷🏻‍♀️")
+db.user_products.findAll({
+  where: { product: product.name },
+    defaults: {
+        name: product.name,
+        salePrice: product.salePrice,
+        mediumImage: product.mediumImage,
+    }
+})
+
+  res.render('./products/cart.ejs');
 })
 
 // post cart
 app.post('/cart', function (req, res) {
-  db.product.findOrCreate({
-    where: { product: product.name },
-    defaults: {
-        name: product.name,
-        thumbnailImage: product.thumbnailImage,
-        regularPrice: product.regularPrice,
-        salePrice: product.salePrice,
-        description: product.description,
-        customerTopRated: product.customerTopRated,
-        mediumImage: product.mediumImage,
-        addToCartUrl: product.addToCartUrl,
-        longDescription: product.longDescription,
-        color: product.color,
-        condition: product.condition,
-        largeImage: product.largeImage,
-        modelNumber: product.modelNumber,
-        percentSavings: product.percentSavings
-    }
-})
+  console.log(req.body)
+//   db.product.findOrCreate({
+//     where: { product: product.name },
+//     defaults: {
+//         name: product.name,
+//         thumbnailImage: product.thumbnailImage,
+//         regularPrice: product.regularPrice,
+//         salePrice: product.salePrice,
+//         description: product.description,
+//         customerTopRated: product.customerTopRated,
+//         mediumImage: product.mediumImage,
+//         addToCartUrl: product.addToCartUrl,
+//         longDescription: product.longDescription,
+//         color: product.color,
+//         condition: product.condition,
+//         largeImage: product.largeImage,
+//         modelNumber: product.modelNumber,
+//         percentSavings: product.percentSavings
+//     }
+// })
   res.redirect('/cart')
 })
 
@@ -111,43 +135,39 @@ app.post('/cart', function (req, res) {
 //   res.render('cart.ejs')
 // })
 
-// GET ROUTE FOR /ABOUTME
+        // STRETCH GOAL ROUTES
+
+
+// POST ROUTE FOR LOGIN PAGE STRETCH
+app.post('/login', (req, res) => {
+  let currentUser = req.body.userName
+  
+  res.render('login.ejs', { userName: currentUser })
+})
+
+// GET ROUTE FOR LOGIN PAGE STRETCH
+app.get('/login', (req, res) => {
+  res.render('login.ejs')
+})
+
+
+// GET ROUTE FOR /ABOUTME STRETCH
 app.get('/about', function (req, res) {
   res.render('aboutMe.ejs')
 })
 
-// GET ROUTE FOR /PRODUCTDETAILS
+
+// GET ROUTE FOR /PRODUCTDETAILS STRETCH
 app.get('/details/:id', function (req, res) {
   res.render('productDetails.ejs')
 })
 
-// POST ROUTE FOR /PRODUCTDETAILS 
+
+// POST ROUTE FOR /PRODUCTDETAILS STRETCH
 app.post('/details/:id', function (req, res) {
   res.render('productDetails.ejs')
 })
 
-// GET ROUTE FOR /JOIN
-app.get('/join', function (req, res) {
-  res.render('joinUs.ejs')
-})
-
-// POST ROUTE FOR /JOIN
-app.post('/join', function (req, res) {
-  db.user.findOrCreate({
-    where: { userName: req.body.userName },
-    defaults: {
-        userName: req.body.userName,
-        password: req.body.password
-    }
-}) .then ( ([user, created])=> {
-  res.redirect(`/products?user=${user.userName}`)
-})
-  
-})
-
-
-// // Imports all routes from the controller routes file
-// app.use('/', require('..bbyProducts.js'));
 
 //open up port for the app to listen on + define port
 app.listen(process.env.PORT || 3000, () => {

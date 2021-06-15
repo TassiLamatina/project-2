@@ -27,28 +27,38 @@
           <input hidden type="text" name="largeImage" value="<%=product.largeImage %> ">
           <input hidden type="text" name="modelNumber" value="<%=product.modelNumber %> ">
           <input hidden type="text" name="percentSavings" value="<%=product.percentSavings %> ">
-          <button class="btn btn-primary" type="submit">Add To Cart</button>
+          <br>
         </form>
       </div>
-      </div>
+       <img src="<%= product.thumbnailImage %>">
+       <h4>regular price:<%= product.regularPrice %> </h4>
+       <h4>sale price:<%= product.salePrice %> </h4>
+       <h4>percent savings:<%= product.percentSavings %> </h4>
+       <p> <%= product.description %> </p>
+       <form action="/cart" method="POST">
+       <button type="submit">Add To Cart</button>
+       <input hidden type="text" name="name" value="<%=product.name %> ">
+          <input hidden type="text" name="thumbnailImage" value="<%=product.thumbnailImage %> ">
+          <input hidden type="text" name="regularPrice" value="<%=product.regularPrice %> ">
+          <input hidden type="text" name="salePrice" value="<%=product.salePrice %> ">
+          <input hidden type="text" name="description" value="<%=product.description %> ">
+          <input hidden type="text" name="customerTopRated" value="<%=product.customerTopRated %> ">
+          <input hidden type="text" name="mediumImage" value="<%=product.mediumImage %> ">
+          <input hidden type="text" name="addToCartUrl" value="<%=product.addToCartUrl %> ">
+          <input hidden type="text" name="longDescription" value="<%=product.longDescription %> ">
+          <input hidden type="text" name="color" value="<%=product.color %> ">
+          <input hidden type="text" name="condition" value="<%=product.condition %> ">
+          <input hidden type="text" name="largeImage" value="<%=product.largeImage %> ">
+          <input hidden type="text" name="modelNumber" value="<%=product.modelNumber %> ">
+          <input hidden type="text" name="percentSavings" value="<%=product.percentSavings %> ">
+      </form>
+      <br>
       <form action="/cart" method="GET">
         <button type="submit">Go To Cart</button>
       </form>
-
-        <li>
-         <%= product.name %>
-        </li>
-        <img src="<%= product.thumbnailImage %>">
-        <h4>regular price:<%= product.regularPrice %> </h4>
-        <h4>sale price:<%= product.salePrice %> </h4>
-        <h4>percent savings:<%= product.percentSavings %> </h4>
-
-        <p> <%= product.description %> </p>
-       
-        
-
-            <% }) %>
-</ul>
+      <br>
+      <br>
+      <% }) %> 
 <script>
   let currentUser = localStorage.getItem('user')
   document.getElementById('user').innerText = `Welcome ${currentUser}`
@@ -83,13 +93,39 @@
           <input hidden type="text" name="largeImage" value="<%=product.largeImage %> ">
           <input hidden type="text" name="modelNumber" value="<%=product.modelNumber %> ">
           <input hidden type="text" name="percentSavings" value="<%=product.percentSavings %> ">
-          <button class="btn btn-primary" type="submit">Add To Cart</button>
+          <br>
         </form>
       </div>
-      <% }) %> 
+       <img src="<%= product.thumbnailImage %>">
+       <h4>regular price:<%= product.regularPrice %> </h4>
+       <h4>sale price:<%= product.salePrice %> </h4>
+       <h4>percent savings:<%= product.percentSavings %> </h4>
+       <p> <%= product.description %> </p>
+       <form action="/cart" method="POST">
+       <button type="submit">Add To Cart</button>
+       <input hidden type="text" name="name" value="<%=product.name %> ">
+          <input hidden type="text" name="thumbnailImage" value="<%=product.thumbnailImage %> ">
+          <input hidden type="text" name="regularPrice" value="<%=product.regularPrice %> ">
+          <input hidden type="text" name="salePrice" value="<%=product.salePrice %> ">
+          <input hidden type="text" name="description" value="<%=product.description %> ">
+          <input hidden type="text" name="customerTopRated" value="<%=product.customerTopRated %> ">
+          <input hidden type="text" name="mediumImage" value="<%=product.mediumImage %> ">
+          <input hidden type="text" name="addToCartUrl" value="<%=product.addToCartUrl %> ">
+          <input hidden type="text" name="longDescription" value="<%=product.longDescription %> ">
+          <input hidden type="text" name="color" value="<%=product.color %> ">
+          <input hidden type="text" name="condition" value="<%=product.condition %> ">
+          <input hidden type="text" name="largeImage" value="<%=product.largeImage %> ">
+          <input hidden type="text" name="modelNumber" value="<%=product.modelNumber %> ">
+          <input hidden type="text" name="percentSavings" value="<%=product.percentSavings %> ">
+      </form>
+      <br>
       <form action="/cart" method="GET">
         <button type="submit">Go To Cart</button>
       </form>
+      <br>
+      <br>
+      <% }) %> 
+      
 <script>
   if (!localStorage.getItem('user')) {
     let user = "<%- userName %>"

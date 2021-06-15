@@ -7,22 +7,65 @@
 <!-- right hand side name -->
 
 <!-- bottom left outside table buy it button that sends to addToCartUrl -->
-
+<% if (!locals.userName) { %>
+  
+<h2 id="user"></h2>
   
 <div class="container">
-
-    <h2><%= ${userName} %>'s Cart</h2>
-  
-    <% product.forEach(product => { %>
+    <% productId.forEach(productId => { %>
     <div class="well">
-      <h3><%= product.name; %></h3>
-      <a href="/product/<%= product.name() %>">
-        
-        <button acion="/details/:id" class="btn btn-primary">More Info</button>
+      <h2> <%= product.name %> </h2>
+      <img src="<%= product.mediumImage %>">
+       <h4>sale price:<%= product.salePrice %> </h4>
+        <button acion="/details/:id" class="btn btn-primary">More Info (strech)</button>
       </a>
     </div>
+    <br>
     <form action="/results/<%= product.result %>/?_method=DELETE" method="POST">
-      <input type="submit" value="Delete " /> </form>
+      <input type="submit" value="Delete Product" /> </form>
+</div>
     <% }); %>
   
-  </div>
+  <script>
+    let currentUser = localStorage.getItem('user')
+    document.getElementById('user').innerText = `${currentUser}'s Cart`
+    document.getElementById('userInput').value = currentUser
+    console.log(`User logged in: ${currentUser}`)
+  </script>
+
+
+<% } else { %>
+
+    <h2><%= ${currentUser} %>'s Cart</h2>
+      
+    
+    <div class="container">
+        <% product.forEach(product => { %>
+        <div class="well">
+          <h2> <%= product.name %> </h2>
+          <img src="<%= product.mediumImage %>">
+           <h4>sale price:<%= product.salePrice %> </h4>
+            <button acion="/details/:id" class="btn btn-primary">More Info (strech)</button>
+          </a>
+        </div>
+        <br>
+        <form action="/results/<%= product.result %>/?_method=DELETE" method="POST">
+          <input type="submit" value="Delete Product" /> </form>
+    
+
+    </div>
+        <% }); %>
+      
+      
+      <script>
+        if (!localStorage.getItem('user')) {
+          // let user = "<%- userName %>"
+          localStorage.setItem('user', user)
+        }
+        let currentUser = localStorage.getItem('user')
+        console.log(`User logged in: ${currentUser}`)
+      </script>
+      <% } %>
+    
+  
+      
