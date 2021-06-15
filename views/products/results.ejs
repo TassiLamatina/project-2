@@ -1,5 +1,6 @@
+<% if (!locals.userName) { %>
 
-<h1>The Best Current Deals At Best Buy:</h1>
+<h1 id="user"></h1>
 <p>Type name of product below:</p>
 <form action="/products" method="GET">
     <label for="product">Product name goes here.</label></br>
@@ -13,12 +14,25 @@
         <h2> <%= product.name %> </h2>
         <form method="POST" action="/results">
           <input hidden type="text" name="name" value="<%=product.name %> ">
-          <button action="/cart" method="POST" class="btn btn-primary" type="submit">Add To Cart</button>
+          <input hidden type="text" name="thumbnailImage" value="<%=product.thumbnailImage %> ">
+          <input hidden type="text" name="regularPrice" value="<%=product.regularPrice %> ">
+          <input hidden type="text" name="salePrice" value="<%=product.salePrice %> ">
+          <input hidden type="text" name="description" value="<%=product.description %> ">
+          <input hidden type="text" name="customerTopRated" value="<%=product.customerTopRated %> ">
+          <input hidden type="text" name="mediumImage" value="<%=product.mediumImage %> ">
+          <input hidden type="text" name="addToCartUrl" value="<%=product.addToCartUrl %> ">
+          <input hidden type="text" name="longDescription" value="<%=product.longDescription %> ">
+          <input hidden type="text" name="color" value="<%=product.color %> ">
+          <input hidden type="text" name="condition" value="<%=product.condition %> ">
+          <input hidden type="text" name="largeImage" value="<%=product.largeImage %> ">
+          <input hidden type="text" name="modelNumber" value="<%=product.modelNumber %> ">
+          <input hidden type="text" name="percentSavings" value="<%=product.percentSavings %> ">
+          <button class="btn btn-primary" type="submit">Add To Cart</button>
         </form>
       </div>
       </div>
-      <form>
-        <button action="/cart" type="submit">Go To Cart</button>
+      <form action="/cart" method="GET">
+        <button type="submit">Go To Cart</button>
       </form>
 
         <li>
@@ -35,3 +49,53 @@
 
             <% }) %>
 </ul>
+<script>
+  let currentUser = localStorage.getItem('user')
+  document.getElementById('user').innerText = `Welcome ${currentUser}`
+  document.getElementById('userInput').value = currentUser
+  console.log(`User logged in: ${currentUser}`)
+</script>
+<% } else { %>
+
+  <h1> Welcome <%= userName %> </h1>
+  <form action="/products" method="GET">
+    <label for="product">Product name goes here.</label></br>
+    <input type="text" name="name" id="productName">
+<input type="submit" value="Enter">
+</form>
+
+  <ul id="req.query.name">
+    <% products.forEach(product => { %>
+      <div class="well">
+        <h2> <%= product.name %> </h2>
+        <form method="POST" action="/results">
+          <input hidden type="text" name="name" value="<%=product.name %> ">
+          <input hidden type="text" name="thumbnailImage" value="<%=product.thumbnailImage %> ">
+          <input hidden type="text" name="regularPrice" value="<%=product.regularPrice %> ">
+          <input hidden type="text" name="salePrice" value="<%=product.salePrice %> ">
+          <input hidden type="text" name="description" value="<%=product.description %> ">
+          <input hidden type="text" name="customerTopRated" value="<%=product.customerTopRated %> ">
+          <input hidden type="text" name="mediumImage" value="<%=product.mediumImage %> ">
+          <input hidden type="text" name="addToCartUrl" value="<%=product.addToCartUrl %> ">
+          <input hidden type="text" name="longDescription" value="<%=product.longDescription %> ">
+          <input hidden type="text" name="color" value="<%=product.color %> ">
+          <input hidden type="text" name="condition" value="<%=product.condition %> ">
+          <input hidden type="text" name="largeImage" value="<%=product.largeImage %> ">
+          <input hidden type="text" name="modelNumber" value="<%=product.modelNumber %> ">
+          <input hidden type="text" name="percentSavings" value="<%=product.percentSavings %> ">
+          <button class="btn btn-primary" type="submit">Add To Cart</button>
+        </form>
+      </div>
+      <% }) %> 
+      <form action="/cart" method="GET">
+        <button type="submit">Go To Cart</button>
+      </form>
+<script>
+  if (!localStorage.getItem('user')) {
+    let user = "<%- userName %>"
+    localStorage.setItem('user', user)
+  }
+  let currentUser = localStorage.getItem('user')
+  console.log(`User logged in: ${currentUser}`)
+</script>
+<% } %>
