@@ -66,7 +66,7 @@ app.delete('/:name', async (req, res) => {
 
 // PUT route for /login
 app.put('/login', async (req, res) => {
-  db.user.update({
+  db.user.put({
     where: { userName: req.body.userName },
     defaults: {
         userName: req.body.userName,
