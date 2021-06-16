@@ -5,7 +5,6 @@ require('dotenv').config()
 const layouts = require('express-ejs-layouts')
 let methodOverride = require('method-override');
 const router = express.Router();
-const controller = require('./controller/bbyProducts.js')
 const rowdy = require('rowdy-logger')
 const db = require('./models')
 
@@ -90,7 +89,7 @@ app.get('/results', (req, res) => {
 
 
 // GET ROUTE FOR /CART
-app.get('/cart', function (req, res) {
+app.get('/cart/:userId', function (req, res) {
   let currentUser = req.query.user
 console.log(req.query, "🤷🏻‍♀️🤷🏻‍♀️🤷🏻‍♀️🤷🏻‍♀️")
 db.user_products.findAll({
@@ -101,7 +100,6 @@ db.user_products.findAll({
         mediumImage: product.mediumImage,
     }
 })
-
   res.render('./products/cart.ejs');
 })
 
