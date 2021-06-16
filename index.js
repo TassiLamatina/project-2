@@ -51,27 +51,19 @@ app.post('/join', function (req, res) {
 
 
 // DELETE ROUTE FOR /login
-app.delete('/:name', async (req, res) => {
+app.delete('/join', async (req, res) => {
      let numRowsDeleted = await db.user.destroy({
-    where: { userName: req.body.userName },
-    defaults: {
-        userName: req.body.userName,
-        password: req.body.password
-    }
+    where: { userName: req.body.userName }
  }) .then ( ([user, deleted])=> {
-  res.redirect('/')
+  res.redirect('/login')
  })
 })
 
 
 // PUT route for /login
 app.put('/login', async (req, res) => {
-  db.user.put({
-    where: { userName: req.body.userName },
-    defaults: {
-        userName: req.body.userName,
-        password: req.body.password
-    }
+  db.user.findOrCreate({
+    where: { userName: req.body.userName }
  }) .then ( ([user, created])=> {
   res.redirect('/search')
  })
@@ -87,7 +79,6 @@ app.get('/search', (req, res) => {
 // GET ROUTE FOR /PRODUCTS PAGE
 app.get('/products', (req, res) => {
 let currentUser = req.query.user
-console.log(req.query)
 db.user.findOne({
   where: {
     userName: currentUser
@@ -95,15 +86,11 @@ db.user.findOne({
 }) .then(user => {
   axios.get(`https://api.bestbuy.com/v1/products(search=${ req.query.name })?format=json&show=name,thumbnailImage,regularPrice,salePrice,description,customerTopRated,mediumImage,addToCartUrl,longDescription,color,condition,largeImage,modelNumber,sku,percentSavings&apiKey=${BESTBUYAPI}`)
         .then((resFromAPI) =>{ 
-        // console.log(req.query.name)
-        //     console.log(resFromAPI.data)
-        console.log(user,"😂😂😂😂😂😂")
           const products = resFromAPI.data.products.filter( (product) =>{
             const savings = parseFloat(product.percentSavings)
             return savings > 40
           })
-            res.render('./products/results.ejs', {products: products, userName:user.userName},)
-
+            res.render('./products/results.ejs', {products:product.name, userName:user.userName},)
         })
         .catch(err => {console.log(err)})
       })
@@ -122,22 +109,8 @@ app.get('/cart/:userId', function (req, res) {
 console.log(req.query, "🤷🏻‍♀️🤷🏻‍♀️🤷🏻‍♀️🤷🏻‍♀️")
 db.user_products.findAll({
   where: { product: product.name },
-    defaults: {
-        name: product.name,
-        salePrice: product.salePrice,
-        mediumImage: product.mediumImage,
-    }
 })
-
-  // db.user_product.findAll()
-  // .then((userId) => {
-  //   res.render('./products/cart.ejs', { userId: params })
-  // })
-  // .catch((error) => {
-  //   res.status(400).render('main/404')
-  // })
-
-  res.render('./products/cart.ejs');
+  res.render('./products/cart.ejs',{ userId: params } );
 })
 
 // post cart
