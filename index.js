@@ -50,6 +50,34 @@ app.post('/join', function (req, res) {
 })
 
 
+// DELETE ROUTE FOR /login
+app.delete('/:name', async (req, res) => {
+     let numRowsDeleted = await db.user.destroy({
+    where: { userName: req.body.userName },
+    defaults: {
+        userName: req.body.userName,
+        password: req.body.password
+    }
+ }) .then ( ([user, deleted])=> {
+  res.redirect('/')
+ })
+})
+
+
+// PUT route for /login
+app.put('/login', async (req, res) => {
+  db.user.update({
+    where: { userName: req.body.userName },
+    defaults: {
+        userName: req.body.userName,
+        password: req.body.password
+    }
+ }) .then ( ([user, created])=> {
+  res.redirect('/search')
+ })
+})
+
+
 // get /search
 app.get('/search', (req, res) => {
   res.render('products/searchForm.ejs', {user:req.query.user})
@@ -65,7 +93,7 @@ db.user.findOne({
     userName: currentUser
   } 
 }) .then(user => {
-  axios.get(`https://api.bestbuy.com/v1/products(search=${ req.query.name })?format=json&show=name,thumbnailImage,regularPrice,salePrice,description,customerTopRated,mediumImage,addToCartUrl,longDescription,color,condition,largeImage,modelNumber,percentSavings&apiKey=${BESTBUYAPI}`)
+  axios.get(`https://api.bestbuy.com/v1/products(search=${ req.query.name })?format=json&show=name,thumbnailImage,regularPrice,salePrice,description,customerTopRated,mediumImage,addToCartUrl,longDescription,color,condition,largeImage,modelNumber,sku,percentSavings&apiKey=${BESTBUYAPI}`)
         .then((resFromAPI) =>{ 
         // console.log(req.query.name)
         //     console.log(resFromAPI.data)
@@ -100,38 +128,29 @@ db.user_products.findAll({
         mediumImage: product.mediumImage,
     }
 })
+
+  db.user_product.findAll()
+  .then((userId) => {
+    res.render('./products/cart.ejs', { userId: params })
+  })
+  .catch((error) => {
+    res.status(400).render('main/404')
+  })
+
   res.render('./products/cart.ejs');
 })
 
 // post cart
 app.post('/cart', function (req, res) {
   console.log(req.body)
-//   db.product.findOrCreate({
-//     where: { product: product.name },
-//     defaults: {
-//         name: product.name,
-//         thumbnailImage: product.thumbnailImage,
-//         regularPrice: product.regularPrice,
-//         salePrice: product.salePrice,
-//         description: product.description,
-//         customerTopRated: product.customerTopRated,
-//         mediumImage: product.mediumImage,
-//         addToCartUrl: product.addToCartUrl,
-//         longDescription: product.longDescription,
-//         color: product.color,
-//         condition: product.condition,
-//         largeImage: product.largeImage,
-//         modelNumber: product.modelNumber,
-//         percentSavings: product.percentSavings
-//     }
-// })
-  res.redirect('/cart')
+  db.product.findOrCreate({
+    where: { product: req.body.name },
+    
+})
+  res.redirect('/cart'+ req.body.userName)
 })
 
-// DELETE ROUTE FOR /CART
-// app.delete('/cart', function (req, res) {
-//   res.render('cart.ejs')
-// })
+
 
         // STRETCH GOAL ROUTES
 

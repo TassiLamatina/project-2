@@ -29,8 +29,8 @@ nav {
     display: inline;
     float: left;
     /* width: 20%; */
-    max-width: 1185px;
-    min-width: 600px;
+    width: 1185px;
+    /* min-width: 600px; */
 }
 #navbar {
     display: inline;

@@ -20,11 +20,53 @@
       <label for="password"><b>Password</b></label>
       <input type="password" placeholder="Enter Desired Password" name="password" required>
   
-      <!-- <label for="psw-repeat"><b>Repeat Password</b></label>
-      <input type="password" placeholder="Repeat Password" name="password-repeat" required> -->
       <div class="clearfix">
         <button type="submit" class="signupbtn">Sign Up</button>
       </div>
     </div>
+
+  </form>
+
+  <br>
+  <br>
+  <form method="DELETE" action="/join" style="border:1px solid #ccc">
+    <div class="container">
+      <h3>Delete your account below.</h3>
+      <p>Please fill in your account info to remove account:</p>
+      <hr>
+  
+      <label for="userName"><b>Username</b></label>
+      <input type="text" placeholder="Enter Existing Username" name="userName" required>
+  
+      <label for="password"><b>Password</b></label>
+      <input type="password" placeholder="Enter Existing Password" name="password" required>
+  
+      <div class="clearfix">
+        <button type="submit" class="deletebtn">Remove Account</button>
+      </div>
+    </div>
+
   </form>
   
+  <br>
+  <br>
+  <form method="UPDATE" action="/join" style="border:1px solid #ccc">
+    <div class="container">
+      <h3>Change Existing Password</h3>
+      <p>Please enter existing username and password followed by new password to update your account:</p>
+      <hr>
+  
+      <label for="userName"><b>Existing Username</b></label>
+      <input type="text" placeholder="Enter Desired Username" name="userName" required>
+  
+      <label for="password"><b>Current Password</b></label>
+      <input type="password" placeholder="Enter Desired Password" name="password" required>
+
+      <label for="new-password"><b>new Password</b></label>
+      <input type="password" placeholder="New Password" name="new-password" required>
+  
+      <div class="clearfix">
+        <button type="submit" class="updatebtn">Change Password</button>
+      </div>
+    </div>
+  </form>
