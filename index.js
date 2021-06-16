@@ -129,13 +129,13 @@ db.user_products.findAll({
     }
 })
 
-  db.user_product.findAll()
-  .then((userId) => {
-    res.render('./products/cart.ejs', { userId: params })
-  })
-  .catch((error) => {
-    res.status(400).render('main/404')
-  })
+  // db.user_product.findAll()
+  // .then((userId) => {
+  //   res.render('./products/cart.ejs', { userId: params })
+  // })
+  // .catch((error) => {
+  //   res.status(400).render('main/404')
+  // })
 
   res.render('./products/cart.ejs');
 })
