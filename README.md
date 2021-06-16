@@ -21,4 +21,5 @@ adding an about me page and my experience at best buy
 adding a working login route with user authentication (not yet covered)
 adding a product details page that list several details about chose product from best buy API key.
 better styling
+add more content for user.
 
