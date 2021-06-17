@@ -1,4 +1,4 @@
-<% if (!locals.userName) { %>
+<% if (!locals.name) { %>
 
 <h1 id="user"></h1>
 <p>Type name of product below:</p>
@@ -67,7 +67,7 @@
 </script>
 <% } else { %>
 
-  <h1> Welcome <%= userName %> </h1>
+  <h1> Welcome <%= name %> </h1>
   <form action="/products" method="GET">
     <label for="product">Product name goes here.</label></br>
     <input type="text" name="name" id="productName">
@@ -128,7 +128,7 @@
       
 <script>
   if (!localStorage.getItem('user')) {
-    let user = "<%- userName %>"
+    let user = "<%- name %>"
     localStorage.setItem('user', user)
   }
   let currentUser = localStorage.getItem('user')

@@ -49,8 +49,17 @@
           </a>
         </div>
         <br>
-        <form action="/results/<%= product.result %>/?_method=DELETE" method="POST">
+        <form action="/results/<%= product.result %>/?_method=DELETE" method="DELETE">
           <input type="submit" value="Delete Product" /> </form>
+
+          <% product.forEach(product => { %>
+
+
+          })
+        <form action="<% product.addToCartUrl %>" method="get" name="bbyCart"> 
+          <label for="bbyCart"><b>Click to chekout at the Best Buy Website</b></label>
+          <button type="submit">Add</button>
+        </form>
     
 
     </div>
@@ -59,7 +68,7 @@
       
       <script>
         if (!localStorage.getItem('user')) {
-          // let user = "<%- userName %>"
+          // let user = "<%- name %>"
           localStorage.setItem('user', user)
         }
         let currentUser = localStorage.getItem('user')
