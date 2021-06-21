@@ -53,8 +53,8 @@ app.post('/join', function (req, res) {
 
 // DELETE ROUTE FOR /login
 app.delete('/join', async (req, res) => {
-     let numRowsDeleted = await db.user.destroy({
-    where: { name: req.body.userName }
+     let numRowsDeleted = await db.User.destroy({
+    where: { userName: req.body.userName }
  }) .then ( ([User, deleted])=> {
   res.redirect('/login')
  })
@@ -63,7 +63,7 @@ app.delete('/join', async (req, res) => {
 
 // PUT route for /login
 app.put('/login', async (req, res) => {
-  db.user.update({
+  db.User.update({
     where: { password: req.body.password }
  }) .then ( ([User, created])=> {
   res.redirect('/login')
@@ -74,9 +74,10 @@ app.put('/login', async (req, res) => {
 // get /search
 app.get('/search', (req, res) => {
   let currentUser = req.query.user
-db.user.findOne({
+  // console.log(currentUser, '🤷🏻‍♀️🤷🏻‍♀️🤷🏻‍♀️🤷🏻‍♀️')
+db.User.findOne({
   where: {
-    name: currentUser
+    userName: currentUser
   } 
 })
   res.render('products/searchForm.ejs', {user:req.query.user})
@@ -86,21 +87,22 @@ db.user.findOne({
 // GET ROUTE FOR /PRODUCTS PAGE
 app.get('/products', (req, res) => {
 let currentUser = req.query.user
-db.User.findOne({
-  where: {
-    name: currentUser
-  } 
-}) .then(user => {
-  axios.get(`https://api.bestbuy.com/v1/products(search=${ req.query.name })?format=json&show=name,thumbnailImage,regularPrice,salePrice,description,customerTopRated,mediumImage,addToCartUrl,longDescription,color,condition,largeImage,modelNumber,sku,percentSavings&apiKey=${BESTBUYAPI}`)
-        .then((resFromAPI) =>{ 
-          const products = resFromAPI.data.products.filter( (product) =>{
-            const savings = parseFloat(product.percentSavings)
-            return savings > 40
-          })
-            res.render('./products/results.ejs', {products:products, name:user.name})
-        })
-        .catch(err => {console.log(err)})
-      })
+console.log(req.query.user)
+// db.User.findOne({
+//   where: {
+//     userName: currentUser
+//   } 
+// }) .then(user => {
+//   axios.get(`https://api.bestbuy.com/v1/products(search=${ req.query.name })?format=json&show=name,thumbnailImage,regularPrice,salePrice,description,customerTopRated,mediumImage,addToCartUrl,longDescription,color,condition,largeImage,modelNumber,sku,percentSavings&apiKey=${BESTBUYAPI}`)
+//         .then((resFromAPI) =>{ 
+//           const products = resFromAPI.data.products.filter( (product) =>{
+//             const savings = parseFloat(product.percentSavings)
+//             return savings > 40
+//           })
+//             res.render('./products/results.ejs', {products:products, name:user.name})
+//         })
+//         .catch(err => {console.log(err)})
+//       })
 });
  
 
@@ -135,7 +137,7 @@ app.get('/results', (req, res) => {
   let currentUser = req.query.user
 db.User.findOne({
   where: {
-    name: currentUser
+    userName: currentUser
   }   
 }) .then(user => {
   res.render('./products/results.ejs');
